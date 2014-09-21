@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<style>
+			body {
+			  /*font-family: 'Open Sans', sans-serif;*/
+			  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+			  font-weight: 300;
+			  /* line-height: 1.42em; */
+			  color:#A7A1AE;
+			  background-color: #262626;
+			}
+
+			div.container {
+				display: inline-block;
+				float: left;
+				background-color: #262626;
+			}
+
+			html, body {
+				height: 100%;
+				margin: 0;
+			}
+
+			/* All graphs */
+
+			.title {
+				font: 16px sans-serif;
+				fill: #FFF;
+			}
+
+			text {
+				font: 15px sans-serif;
+				fill: #FFF;
+			}
+			.legend {
+				font: 9px sans-serif !important;
+				fill: #FFF;
+			}
+
+			/* Bar graph */
+			.bar {
+				/*fill: #6C6C78;*/
+			}
+
+			.bar_text {
+				font: 15px sans-serif !important;
+				fill: #FFF !important;
+			}
+
+			.axis text {
+				font: 20px sans-serif;
+				fill: #FFF;
+			}
+
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: #FFF;
+				shape-rendering: crispEdges;
+			}
+
+			/* Map */
+			.map text {
+			  fill: white;
+			  font: 15px sans-serif;
+			  text-anchor: middle;
+			  cursor: pointer;
+			}	
+
+			path.area {
+				cursor: pointer;
+				stroke: #262626;
+	   			stroke-width: 1;
+			}
+
+			/*
+			path.area:hover {
+				fill: orange;
+			}
+
+			path.area.selected {
+				fill: #EF4836;
+			}
+
+			path.area.district_selected {
+				fill: orange;
+			}
+			*/	
+
+			path {
+				-moz-transition: all 0.3s;
+            	-o-transition: all 0.3s;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.unselectable {
+			   -moz-user-select: -moz-none;
+			   -khtml-user-select: none;
+			   -webkit-user-select: none;
+			   -ms-user-select: none;
+			   user-select: none;
+			}
+
+			/* World map */
+			path.world {
+			  fill: #333E45;
+			  stroke: #000;
+			  stroke-width: 0.1px;
+			}
+
+			.worldmap .legend {
+				font: 5px sans-serif !important;
+			}
+
+			.title.worldmap {
+				font: 5px sans-serif !important;
+			}
+
+			.map_title {
+				font: 4px sans-serif !important;
+			}
+
+			/* Control menu */
+			div.menu_button {
+				height: 100%;
+				background-color: #6C6C78;
+				/*font-family: sans-serif;*/
+				/* font-size: 10px; */
+				color: white;
+
+  				display: table;
+  				text-align: center;
+
+  				cursor: pointer;
+  				
+  				-moz-transition: all 0.3s;
+            	-o-transition: all 0.3s;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+				
+			}
+			/* MENU FONT RESPONSIVE */
+@media all and (min-width: 0px) and (max-width: 2000px) {
+			div.menu_button {
+				font-size: 7px;
+			}
+		}
+
+@media all and (min-width: 2001px) and (max-width: 20000px) {
+			div.menu_button {
+				font-size: 20px;
+			}
+		}
+
+			div.menu_button:hover {
+				background-color: #F7CA18;
+			}
+
+			div.selected {
+				background-color: #87D37C !important;
+			}
+
+
+			span.menu_button {
+				display: table-cell;
+  				vertical-align: middle;
+			}
+
+			/* Table - RESPONSIVE */
+
+			table.container th h1 {
+			  font-weight: bold;
+			  text-align: left;
+			  color: #585858;
+			}
+
+			table.container td {
+				font-weight: normal;
+			}
+
+			table.container {
+				text-align: left;
+				overflow: hidden;
+				width: 80%;
+				margin: 0 auto;
+				display: table;
+				padding: 0 0 8em 0;
+			}
+
+			table.container td, table.container th {
+				padding-bottom: 1%;
+				padding-top: 1%;
+				padding-left:2%;  
+			}
+
+@media all and (min-width: 0px) and (max-width: 2000px) {
+				table.container th {
+				  font-size: 9px;
+				}
+
+				table.container td {
+					font-size: 9px;
+				}
+
+			}
+
+@media all and (min-width: 2001px) and (max-width: 20000px) {
+				table.container th {
+				  font-size: 16px;
+				}
+
+				table.container td {
+					font-size: 18px;
+				}
+			}
+
+			/* Background-color of the odd rows */
+			table.container tr:nth-child(odd) {
+				  background-color: #3C3C3C;
+			}
+
+			/* Background-color of the even rows */
+			table.container tr:nth-child(even) {
+				  background-color: #2F2F2F;
+			}
+
+			table.container th {
+				  background-color: #2D2D2D;
+			}
+
+			table.container td:first-child {
+				  color: #FB667A;
+			}
+
+			
+		</style>
+		<!-- D3 library -->
+		<script type="text/javascript" src="library/d3.min.js"></script>
+		<script type="text/javascript" src="library/topojson.v1.min.js"></script>
+
+		<!-- Component inclusion -->
+		<script type="text/javascript" src="map.js"></script>
+		<script type="text/javascript" src="bar_graph.js"></script>
+		<script type="text/javascript" src="pie_graph.js"></script>
+		<script type="text/javascript" src="table.js"></script>
+		<script type="text/javascript" src="heatmap_calculator.js"></script>
+		<script type="text/javascript" src="map_world.js"></script>
+		<script type="text/javascript" src="graphic_manager.js"></script>
+	</head>
+	<body style="position: relative;">
+			<div style="width:20%; height:100%; background-color:  #2ecc71;;" class="container">
+				<div style="width:100%; height:90%;" id="map1" class="container"></div>
+				<div style="width:100%; height: 10%; display: none;" class="container" id="heatmap_selection">
+					<div style="width:20%; height: 100%;" class="container menu_button" id="heat_under"><span class="menu_button">PEOPLE UNDER 18</span></div>
+					<div style="width:19%; height: 100%;" class="container">
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_race_black">
+							<span class="menu_button">BLACK</span>
+						</div>
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_race_white">
+							<span class="menu_button">WHITE</span>
+						</div>
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_race_asian">
+							<span class="menu_button">ASIAN</span>
+						</div>
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_race_latino">
+							<span class="menu_button">LATINO</span>
+						</div>
+					</div>
+					<div style="width:20%; height: 100%;" class="container">
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_origin_asia">
+							<span class="menu_button">ASIA</span>
+						</div>
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_origin_camerica">
+							<span class="menu_button">CENTRAL AMERICA</span>
+						</div>
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_origin_samerica">
+							<span class="menu_button">SOUTH AMERICA</span>
+						</div>
+						<div style="width:100%; height: 25%;" class="container menu_button" id="heat_origin_europe">
+							<span class="menu_button">EUROPE</span>
+						</div>
+					</div>
+					<div style="width:20%; height: 100%;" class="container menu_button" id="heat_average_age"><span class="menu_button">MEDIUM AGE</span></div>
+					<div style="width:20%; height: 100%;" class="container menu_button" id="heat_population"><span class="menu_button">POPULATION</span></div>
+				</div>
+				<div style="width:100%; height: 10%;" class="container"  id="area_selection">
+					<form action="">
+						<div class="container" style="width: 20%; height: 100%;">
+							<select id="menu1" class="drop_down_menu" style="width: 100%;"></select>
+						</div>
+						<div class="container" style="width: 20%; height: 100%;">
+							<select id="menu2" class="drop_down_menu" style="width: 100%;"></select>
+						</div>
+						<div class="container" style="width: 20%; height: 100%;">
+							<select id="menu3" class="drop_down_menu" style="width: 100%;"></select>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div style="width:80%; height:100%;" class="container">
+				<div style="width:100%; height:90%;" class="container">
+					<div style="width:30%; height:40%; margin-top: 1%;" class="container" id="container1"></div>
+					<div style="width:70%; height:40%; margin-top: 1%;" class="container" id="container2">
+					</div>
+					<div style="width:33.3333333%; height:40%; margin-top: 5%;" class="container" id="container5"></div>
+					<div style="width:33.333333%; height:45%; margin-top: 2.5%;" class="container" id="container6"></div>
+					<div style="width:33.333333%; height:50%;" class="container">
+						<div style="width:100%; height:80%; margin-top: 10%; margin-bottom: 10%;" class="container" id="container7">
+						</div>
+					</div>
+				</div>
+				<div style="width:100%; height:5%;" class="container">
+					
+					<div style="width:100%; height: 100%;" class="container">
+						<div style="width:20%; height: 100%;" class="container menu_button" id="heat"><span class="menu_button">HEAT MAP</span></div>
+						<div style="width:20%; height: 100%;" class="container menu_button" id="gender"><span class="menu_button">GENDER</span></div>
+						<div style="width:20%; height: 100%;" class="container menu_button" id="age"><span class="menu_button">AGE</span></div>
+						<div style="width:20%; height: 100%;" class="container menu_button" id="race"><span class="menu_button">RACE</span></div>
+						<div style="width:20%; height: 100%;" class="container menu_button" id="origin"><span class="menu_button">ORIGIN</span></div>
+					</div>
+				</div>
+			</div>
+
+			<script type="text/javascript">
+				var gm = new GraphicManager();
+				gm.setContainerIds("#container1",
+								   "#container2",
+								   "#container5",
+								   "#container6",
+								   "#container7",
+								   "#map1",
+								   "#map2");
+				//gm.setModality("GENDER");
+				gm.setMenus(["#menu1","#menu2","#menu3"]);
+				gm.setupMenuButtons("#gender",
+									"#age",
+									"#race",
+									"#origin",
+									"#heat",
+									"#heat_under",
+									"#heat_population",
+									"#heat_average_age",
+									"#heatmap_selection",
+									"#area_selection",
+									"#heat_race_black",
+									"#heat_race_white",
+									"#heat_race_asian",
+									"#heat_race_latino",
+									"#heat_origin_asia",
+									"#heat_origin_camerica",
+									"#heat_origin_samerica",
+									"#heat_origin_europe");
+			</script>
+	</body>
+</html>
